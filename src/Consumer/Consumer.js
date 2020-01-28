@@ -1,13 +1,13 @@
-class Producer {
-    constructor (config) {
+class Consumer {
+    constructor(config) {
         if (!config) {
             throw new Error('undefined config');
         }
     }
 
-    async publish (payload) {
+    async consume () {
         
     }
 }
 
-module.exports = Producer;
+module.exports = Consumer;
