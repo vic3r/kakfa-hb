@@ -1,10 +1,10 @@
 const config = require('config');
 
-const Producer = require('./Producer');
-const Consumer = require('./Consumer');
+const { createProducer } = require('./producer');
+const { createConsumer } = require('./consumer');
 
-const producer = new Producer(config);
-const consumer = new Consumer(config);
+const producer = createProducer(config);
+const consumer = createConsumer(config);
 
-producer.publish({ topic: config.kafkaTopic, messages: 'milk' });
+producer.publish([{ topic: config.kafkaTopic, messages: 'milk' }]);
 consumer.consume();

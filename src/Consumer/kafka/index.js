@@ -1,15 +1,16 @@
-const kafka = require('kafka');
+const kafka = require('kafka-node');
 
 const Consumer = require('../Consumer');
 
 class Kafka extends Consumer {
-    constructor ({ kafkaServer = 'localhost:9092', kafkaTopic = '', partition = 0 } = config) {
+    constructor (config) {
         super(config);
-        const { HighLevelConsumer, Client } = kafka;
-        const client = new Client(kafkaServer);
-        this.consumer = new HighLevelConsumer(
+        const { kafkaServer = 'localhost:9092', kafkaTopic = '', partition = 0 } = config;
+        const { Consumer, KafkaClient } = kafka;
+        const client = new KafkaClient(kafkaServer);
+        this.consumer = new Consumer(
             client,
-            [{ topic: kafkaTopic, partition}],
+            [{ topic: kafkaTopic, partition }],
             {
               autoCommit: true,
               fetchMaxWaitMs: 1000,

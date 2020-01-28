@@ -11,9 +11,11 @@ const create = (config) => {
         case 'kafka':
             const kafkaConsumer = new KafkaConsumer(config);
             consumers[type] = kafkaConsumer;
+            break;
         default:
             const fakeConsumer = new FakeConsumer();
             consumers[type] = fakeConsumer;
+            break;
     }
 
     return consumers[type];

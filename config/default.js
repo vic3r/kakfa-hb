@@ -1,5 +1,5 @@
 module.exports = {
     type: 'kafka',
-    kafka_topic: 'first-topic',
-    kafka_server: 'localhost:9092'
+    kafkaTopic: 'first-topic',
+    kafkaServer: 'localhost:9092'
 };

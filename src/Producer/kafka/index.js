@@ -3,10 +3,11 @@ const kafka = require('kafka-node');
 const Producer = require('../Producer');
 
 class Kafka extends Producer {
-    constructor ({ kafkaServer = 'localhost:9092' } = config) {
+    constructor (config) {
         super(config);
-        const { Producer, Client } = kafka;
-        const client = new Client(kafkaServer);
+        const { kafkaServer } = config || 'localhost:9092';
+        const { Producer, KafkaClient } = kafka;
+        const client = new KafkaClient(kafkaServer);
         this.producer = new Producer(client);
     }
     
@@ -14,14 +15,14 @@ class Kafka extends Producer {
         try {
             let pushStatus;
             this.producer.on('error', (err) => {
-                console.log(`[kafka-producer -> ${payload.topic}]: connection failed ${err}`);
+                console.log(`[kafka-producer: connection failed ${err}`);
             });
             this.producer.on('ready', async () => {
-                pushStatus = this.producer.send(payload, (err, data) => {
+                pushStatus = await this.producer.send(payload, (err, data) => {
                     if (err) {
-                        console.log(`[kafka-producer -> ${payload.topic}]: broker update failed`);
+                        console.log(`[kafka-producer -> ${data}]: broker update failed`);
                     } else {
-                        console.log(`[kafka-producer -> ${payload.topic}]: broker update success`);
+                        console.log(`[kafka-producer -> ${data}]: broker update success`);
                     }
                 });
             });
